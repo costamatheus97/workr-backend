@@ -1,7 +1,8 @@
 const express = require('express');
 
 const jobs = require('./jobs');
-const companies = require('./companies');
+const users = require('./users');
+const techs = require('./techs');
 
 const router = express.Router();
 
@@ -12,6 +13,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/jobs', jobs);
-router.use('/companies', companies);
+router.use('/users', users);
+router.use('/techs', techs);
 
 module.exports = router;
