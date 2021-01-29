@@ -1,4 +1,4 @@
-# Express API Starter
+# Express API Starter.
 
 Includes API Server utilities:
 
