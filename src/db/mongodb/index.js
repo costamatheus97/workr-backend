@@ -13,7 +13,7 @@ class Base {
   }
 
   static connect() {
-    Mongoose.connect('mongodb://workrboard@me:macarraomolhoabolonhesa@localhost:27017/workr', {
+    Mongoose.connect(`mongodb://${process.env.MONGO_URI}`, {
         useNewUrlParser: true
     }, function (error) {
         if (!error) return;
