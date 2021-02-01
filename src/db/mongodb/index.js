@@ -27,9 +27,9 @@ class Base {
   async isConnected() {
     const state = STATUS[this._connection.readyState]
     
-    if (state === 'Conectado') return state;
+    if (state === 'Connected') return state;
 
-    if (state !== 'Conectando') return state
+    if (state !== 'Connecting') return state
 
     await new Promise(resolve => setTimeout(resolve, 1000))
 
