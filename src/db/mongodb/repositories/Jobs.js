@@ -12,4 +12,4 @@ class Jobs extends DatabaseInterface{
   }
 }
 
-module.exports = Jobs();
+module.exports = Jobs;
