@@ -8,16 +8,20 @@ class DatabaseInterface {
   create(item) {
     throw new NotImplementedException();
   }
+
   read(item) {
     throw new NotImplementedException();
   }
+
   update(id, item) {
     throw new NotImplementedException();
   }
+
   delete(id) {
     throw new NotImplementedException();
   }
-  isConnected(id) {
+
+  isConnected() {
     throw new NotImplementedException();
   }
 }
