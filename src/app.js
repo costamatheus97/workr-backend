@@ -2,10 +2,10 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
-const jobService = require('./services/CreateJobService')
+const techService = require('./services/CreateTechService')
 
 async function a(){
-  const b = new jobService();
+  const b = new techService();
   const c = await b.execute();
 
   console.log(c)

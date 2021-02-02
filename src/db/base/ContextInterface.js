@@ -5,6 +5,7 @@ class ContextInterface extends DatabaseInterface {
     super();
     this._database = database;
   }
+  
   isConnected() {
     return this._database.isConnected();
   }
