@@ -2,6 +2,7 @@ const DatabaseInterface = require('../../base/DatabaseInterface')
 
 class Jobs extends DatabaseInterface{
   constructor(collection) {
+    super();
     this.collection = collection
   }
 
@@ -9,6 +10,12 @@ class Jobs extends DatabaseInterface{
     const user = await this.collection.findOne({ name: name })
 
     return user;
+  }
+
+  async read(item) {
+    const result = await this.collection.findOne({ item })
+    
+    return result
   }
 }
 

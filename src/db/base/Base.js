@@ -1,4 +1,5 @@
 const Mongoose = require('mongoose')
+require('dotenv').config();
 
 const STATUS = {
   0: 'Disconnected',
@@ -9,11 +10,11 @@ const STATUS = {
 
 class Base {
   constructor(connection) {
-    this.connection = connection
+    this._connection = connection
   }
 
   static connect() {
-    Mongoose.connect(`mongodb://${process.env.MONGO_URI}`, {
+    Mongoose.connect(process.env.MONGO_URI, {
         useNewUrlParser: true
     }, function (error) {
         if (!error) return;
