@@ -19,11 +19,7 @@ class CreateTechService {
       if(isTechInDatabase.length) {
         throw new Error('Tech already in database')
       } else {
-        try {
           return context.create(payload)
-        } catch (error) {
-          return error
-        }
       }
     }
   }

@@ -9,11 +9,7 @@ class CreateJobService {
     const baseInterface = new Base(connection)
     const context = new ContextInterface(new JobsRepository(JobSchema))
 
-    try {
-      return context.create(payload)
-    } catch (error) {
-      return error
-    }
+    return context.create(payload)
   }
 }
 
