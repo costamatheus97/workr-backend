@@ -1,16 +1,20 @@
 const ContextInterface = require('../db/base/ContextInterface')
 const JobsRepository = require('../db/mongodb/repositories/JobsRepository')
-const UserSchema = require('../db/mongodb/schemas/UserSchema')
+const JobSchema = require('../db/mongodb/schemas/JobSchema')
 const Base = require('../db/base/MongoBase')
 
-class CreateUserService {
-  async execute() {
+class CreateJobService {
+  async execute(payload) {
     const connection = Base.connect();
     const baseInterface = new Base(connection)
     const context = new ContextInterface(new JobsRepository(JobSchema))
 
-    return await context.read()
+    try {
+      return context.create(payload)
+    } catch (error) {
+      return error
+    }
   }
 }
 
-module.exports = CreateUserService;
+module.exports = CreateJobService;

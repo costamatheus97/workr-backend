@@ -5,7 +5,7 @@ class ContextInterface extends DatabaseInterface {
     super();
     this._database = database;
   }
-  
+
   isConnected() {
     return this._database.isConnected();
   }
@@ -18,9 +18,11 @@ class ContextInterface extends DatabaseInterface {
   read(item) {
     return this._database.read(item);
   }
+
   update(id, item) {
     return this._database.update(id, item);
   }
+  
   delete(id) {
     return this._database.delete(id);
   }
