@@ -13,6 +13,12 @@ const CompanySchema = new Mongoose.Schema({
     type: String,
     required: true,
   },
+  profile_picture: {
+    type: String,
+  },
+  banner: {
+    type: String,
+  },
   cnpj: {
     type: String,
   },

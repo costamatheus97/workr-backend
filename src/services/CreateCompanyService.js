@@ -17,8 +17,6 @@ class CreateCompanyService {
       const { email } = payload;
       const companyInDatabase = await context.read({ email: email })
 
-      console.log(companyInDatabase)
-
       if(companyInDatabase.length) {
         throw new Error('Company already exists in database')
       }

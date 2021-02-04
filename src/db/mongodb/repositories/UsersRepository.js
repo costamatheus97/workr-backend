@@ -2,13 +2,22 @@ const DatabaseInterface = require('../../base/DatabaseInterface')
 
 class Users extends DatabaseInterface{
   constructor(collection) {
-    this.collection = collection
+    super();
+    this.collection = collection;
   }
 
-  async findByName(name) {
-    const user = await this.collection.findOne({ name: name })
+  async read(item = {}, limit = 10, skip = 0) {
+    const result = await this.collection.find(item).limit(limit).skip(skip);
+    
+    return result
+  }
+  
+  async create(item) {
+    return this.collection.create(item)
+  }
 
-    return user;
+  async update(id, item) {
+    return this.collection.update(id, item)
   }
 }
 
