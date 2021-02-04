@@ -1,5 +1,5 @@
-const compare = require('bcryptjs');
-const sign = require('jsonwebtoken');
+const { compare } = require('bcryptjs');
+const { sign } = require('jsonwebtoken');
 
 const ContextInterface = require('../db/base/ContextInterface')
 const UsersRepository = require('../db/mongodb/repositories/UsersRepository')
