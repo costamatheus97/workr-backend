@@ -1,6 +1,6 @@
 const express = require('express');
 
-const router = express.Router();
+const router = express.Router();  
 
 const CreateJobService = require('../services/CreateJobService')
 const ContextInterface = require('../db/base/ContextInterface')
@@ -9,6 +9,10 @@ const JobSchema = require('../db/mongodb/schemas/JobSchema')
 const Base = require('../db/base/MongoBase')
 
 const context = new ContextInterface(new JobsRepository(JobSchema))
+
+const ensureAuthenticated = require('../middlewares/EnsureAuthenticated')
+
+router.use(ensureAuthenticated)
 
 router.get('/', async (req, res, next) => {
   const connection = Base.connect();
@@ -27,9 +31,11 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  const jobService = new CreateJobService()
+  const { id } = req.user;
+
+  const jobService = new CreateJobService();
   try {
-    await jobService.execute(req.body);
+    await jobService.execute(id, req.body);
 
     res.json(req.body);
   } catch (error) {

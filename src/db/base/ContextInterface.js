@@ -15,8 +15,13 @@ class ContextInterface extends DatabaseInterface {
   create(item) {
     return this._database.create(item);
   }
+
   read(item) {
     return this._database.read(item);
+  }
+
+  findOne(item) {
+    return this._database.findOne(item);
   }
 
   update(id, item) {

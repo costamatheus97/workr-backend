@@ -55,6 +55,10 @@ const CompanySchema = new Mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  is_verified: {
+    type: Boolean,
+    required: true,
+  },
   followers: {
     type: Number,
   },

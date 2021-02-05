@@ -11,6 +11,10 @@ const Base = require('../db/base/MongoBase')
 
 const context = new ContextInterface(new TechsRepository(TechSchema))
 
+const ensureAuthenticated = require('../middlewares/EnsureAuthenticated')
+
+router.use(ensureAuthenticated)
+
 router.get('/', async (req, res, next) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection)

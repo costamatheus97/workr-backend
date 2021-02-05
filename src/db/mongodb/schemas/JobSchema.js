@@ -1,6 +1,10 @@
 const Mongoose = require('mongoose')
 
 const JobSchema = new Mongoose.Schema({
+  company_id: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,

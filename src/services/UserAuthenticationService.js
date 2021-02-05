@@ -7,26 +7,24 @@ const UserSchema = require('../db/mongodb/schemas/UserSchema')
 const Base = require('../db/base/MongoBase')
 const authConfig = require('../config/auth')
 
-const AppError = require('../error/AppError')
-
 class AuthenticationService {
   async execute(payload) {
     const connection = Base.connect();
     const baseInterface = new Base(connection)
     const context = new ContextInterface(new UsersRepository(UserSchema))
 
-    const { email, password } = payload
+    const { email, hash } = payload
 
-    const user = await context.read({ email: email })
+    const user = await context.findOne({ email: email })
 
-    if (!user) {
-      throw new AppError('Incorrect email/password combination', 401)
+    if (user.length === 0) {
+      throw new Error('Incorrect email/password combination')
     }
 
-    const passwordMatched = await compare(password, user.password)
+    const passwordMatched = await compare(hash, user.hash)
 
     if(!passwordMatched) {
-      throw new AppError('Incorrect email/password combination', 401)
+      throw new Error('Incorrect email/password combination')
     }
 
     const { secret, expiresIn } = authConfig.jwt

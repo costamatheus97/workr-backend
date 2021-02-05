@@ -30,6 +30,8 @@ class CreateCompanyService {
         company_name: payload.company_name,
         is_company: true,
         is_premium: false,
+        is_verified: false,
+        followers: 0,
         created_at: Date.now(),
         updated_at: Date.now()
       }

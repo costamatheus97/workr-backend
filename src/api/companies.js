@@ -11,7 +11,9 @@ const Base = require('../db/base/MongoBase')
 
 const context = new ContextInterface(new CompaniesRepository(CompanySchema))
 
-router.get('/', async (req, res, next) => {
+const ensureAuthenticated = require('../middlewares/EnsureAuthenticated')
+
+router.get('/', ensureAuthenticated, async (req, res, next) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection)
   const isConnected = await baseInterface.isConnected(connection)
@@ -38,7 +40,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', ensureAuthenticated, async (req, res, next) => {
   const updateCompanyService = new UpdateCompanyService()
   try {
     const updatedCompany = await updateCompanyService.execute(req.body, req.params.id);

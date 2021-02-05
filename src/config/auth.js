@@ -1,6 +1,6 @@
 const jwt = {
   jwt: {
-    secret: '0c8685b32a7d4ab00cbb1e61803faad1',
+    secret: 'a7dacbdc866b3ee1d8bd16a49fbb4978',
     expiresIn: '1d'
   }
 }

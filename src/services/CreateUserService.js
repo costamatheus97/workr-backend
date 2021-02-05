@@ -31,6 +31,7 @@ class CreateUserService {
         last_name: payload.last_name,
         is_company: false,
         is_premium: false,
+        is_verified: false,
         created_at: Date.now(),
         updated_at: Date.now()
       }

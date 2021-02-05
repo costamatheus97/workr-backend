@@ -103,6 +103,10 @@ const UserSchema = new Mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  is_verified: {
+    type: Boolean,
+    required: true,
+  },
   created_at: {
     type: Date,
   },

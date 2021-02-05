@@ -11,6 +11,12 @@ class Users extends DatabaseInterface{
     
     return result
   }
+
+  async findOne(item = {}) {
+    const result = await this.collection.findOne(item);
+    
+    return result
+  }
   
   async create(item) {
     return this.collection.create(item)

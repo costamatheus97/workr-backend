@@ -5,6 +5,7 @@ const jobs = require('./jobs');
 const users = require('./users');
 const companies = require('./companies');
 const techs = require('./techs');
+const sessions = require('./sessions');
 
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.use('/jobs', jobs);
 router.use('/users', users);
 router.use('/companies', companies);
 router.use('/techs', techs);
+router.use('/sessions', sessions);
 
 module.exports = router;

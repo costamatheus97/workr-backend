@@ -11,7 +11,9 @@ const Base = require('../db/base/MongoBase')
 
 const context = new ContextInterface(new UsersRepository(UserSchema))
 
-router.get('/', async (req, res, next) => {
+const ensureAuthenticated = require('../middlewares/EnsureAuthenticated')
+
+router.get('/', ensureAuthenticated, async (req, res, next) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection)
   const isConnected = await baseInterface.isConnected(connection)
@@ -19,6 +21,12 @@ router.get('/', async (req, res, next) => {
   if(isConnected) {
     try {
       const users = await context.read()
+
+      users.forEach(user => {
+        const newUser = ({...user}._doc)
+
+        delete newUser.hash
+      })
     
       res.json(users);
     } catch (error) {
@@ -38,7 +46,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', ensureAuthenticated, async (req, res, next) => {
   const updateUserService = new UpdateUserService()
   try {
     const updatedUser = await updateUserService.execute(req.body, req.params.id);
