@@ -48,10 +48,15 @@ router.delete('/:id', async (req, res, next) => {
   const baseInterface = new Base(connection)
   const isConnected = await baseInterface.isConnected(connection)
 
-  const { id } = req.params
+  const companyId = req.params.id
+  const currentCompanyId = req.user.id
 
   if(isConnected) {
     try {
+      if(companyId !== currentCompanyId) {
+        throw new Error('Only the company that created the job can delete it!')
+      }
+      
       await context.delete( {_id: id} )
     
       res.status(200).send()
