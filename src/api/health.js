@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 router.get('/', async (req, res, next) => {
-  res.json({ status: 'UP' })
+  res.json({ status: 'OK' })
 });
 
 module.exports = router;
