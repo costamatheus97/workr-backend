@@ -32,7 +32,7 @@ npm install
 npm run lint
 ```
 
-## Test
+## Tests
 
 ```
 npm run test
