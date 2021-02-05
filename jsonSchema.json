@@ -1,0 +1,108 @@
+{
+    "tech": {
+        "tech_name": "React"
+    },
+
+    "user": {
+        "user_name": "email@email.com",
+        "hash": "1234",
+        "profile_picture": "img.jpg",
+        "is_company": false,
+        "is_premium": false,
+        "first_name": "Robson",
+        "last_name": "silva",
+        "country": "Brasil",
+        "city": "Santos",
+        "state": "São Paulo",
+        "phone_number": "+55 (13)999999999",
+        "interest_location": [
+            {
+                "city": "São Paulo"
+            }
+        ],
+        "resume": {
+            "work_experience": [
+                {
+                    "title": "Engenheiro de software",
+                    "Employment_type": "Integral",
+                    "company": "biqueira",
+                    "location": "São Paulo",
+                    "current_job": false,
+                    "start_date": "10-01-2020",
+                    "end_date": "10-01-2021",
+                    "description": "Desenvolver o corre",
+                    "related_skills": [
+                        {
+                            "tech_name": "React"
+                        }
+                    ]
+                }
+            ],
+            "education": [
+                {
+                    "school": "Fatec Rubens Lara",
+                    "degree": "Bacharel",
+                    "title": "Analise de sistemas",
+                    "start_date": "10-01-2020",
+                    "end_date": "10-01-2021",
+                    "description": "Graduação"
+                },
+                {
+                    "school": "Vtex",
+                    "degree": "Certificação",
+                    "title": "Vtex expert professional",
+                    "start_date": null,
+                    "end_date": null,
+                    "description": "Certificação em Vtex"
+                }
+            ],
+            "skills": [
+                {
+                    "tech_name": "React",
+                    "experience": "2+",
+                    "notify_me": true
+                }
+            ]
+        }
+    },
+
+    "company": {
+        "user_name": "email@email.com",
+        "hash": "1234",
+        "is_company": true,
+        "is_premium": false,
+        "profile_picture": "img.jpg",
+        "banner": "banner.jpg",
+        "cnpj": "123456",
+        "Company_name": "b8one",
+        "description": "Empresa de T.I",
+        "country": "Brasil",
+        "city": "São Paulo",
+        "state": "São Paulo",
+        "cep": "11011000",
+        "phone_number": "+55 (13)999999999",
+        "employees": "50 a 100",
+        "field": "Tecnologia",
+        "folowers": 10
+    },
+    
+    "jobs": {
+        "id": "$fe2#4",
+        "title": "Engenheiro de software",
+        "company": "b8one",
+        "country": "Brasil",
+        "city": "São Paulo",
+        "state": "São Paulo",
+        "pay_range": "R$10",
+        "level": "pleno",
+        "employment_type": "integral",
+        "field": "Tecnologia",
+        "description": "Somos super legais e vamos pagar muitos dinheiros",
+        "requirements": [
+            {
+                "tech_name": "React",
+                "experience": "2+"
+            }
+        ]
+    }
+}
