@@ -2,6 +2,16 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
+const jobService = require('./services/CreateJobService')
+
+// async function a(){
+//   const b = new jobService();
+//   const c = await b.execute();
+
+//   console.log(c)
+// }
+
+// a()
 
 require('dotenv').config();
 
