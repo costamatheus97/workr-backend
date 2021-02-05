@@ -56,8 +56,8 @@ router.delete('/:id', async (req, res, next) => {
       if(companyId !== currentCompanyId) {
         throw new Error('Only the company that created the job can delete it!')
       }
-      
-      await context.delete( {_id: id} )
+
+      await context.delete( {_id: companyId} )
     
       res.status(200).send()
     } catch (error) {
