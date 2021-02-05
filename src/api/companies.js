@@ -21,6 +21,12 @@ router.get('/', ensureAuthenticated, async (req, res, next) => {
   if(isConnected) {
     try {
       const companies = await context.read()
+
+      companies.forEach(company => {
+        const newCompany = ({...company}._doc)
+
+        delete newCompany.hash
+      })
     
       res.json(companies);
     } catch (error) {
