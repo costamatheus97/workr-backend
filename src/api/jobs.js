@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();  
 
+const JobCandidateService = require('../services/JobCandidateService')
 const CreateJobService = require('../services/CreateJobService')
 const ContextInterface = require('../db/base/ContextInterface')
 const JobsRepository = require('../db/mongodb/repositories/JobsRepository')
@@ -49,15 +50,37 @@ router.delete('/:id', async (req, res, next) => {
   const isConnected = await baseInterface.isConnected(connection)
 
   const companyId = req.params.id
-  const currentCompanyId = req.user.id
+  const currentUserId = req.user.id
 
   if(isConnected) {
     try {
-      if(companyId !== currentCompanyId) {
+      if(companyId !== currentUserId) {
         throw new Error('Only the company that created the job can delete it!')
       }
 
       await context.delete( {_id: companyId} )
+    
+      res.status(200).send()
+    } catch (error) {
+      next(error)
+    }
+  }
+});
+
+router.put('/:id', async (req, res, next) => {
+  const connection = Base.connect();
+  const baseInterface = new Base(connection)
+  const isConnected = await baseInterface.isConnected(connection)
+
+  const jobCandidateService = new JobCandidateService();
+
+  const jobId = req.params.id
+  const currentUserId = req.user.id
+
+  if(isConnected) {
+    try {
+
+      await jobCandidateService.execute(jobId, currentUserId)
     
       res.status(200).send()
     } catch (error) {

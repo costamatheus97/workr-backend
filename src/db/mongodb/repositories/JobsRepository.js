@@ -11,6 +11,12 @@ class Jobs extends DatabaseInterface{
     
     return result
   }
+
+  async findOne(item = {}) {
+    const result = await this.collection.findOne(item);
+    
+    return result
+  }
   
   async create(item) {
     return this.collection.create(item)
@@ -18,6 +24,10 @@ class Jobs extends DatabaseInterface{
 
   async delete(item) {
     return this.collection.deleteOne(item)
+  }
+
+  async update(id, item) {
+    return this.collection.update(id, item)
   }
 }
 

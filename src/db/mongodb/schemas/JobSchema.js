@@ -55,7 +55,10 @@ const JobSchema = new Mongoose.Schema({
         required: true,
       }
     }
-  ]
+  ],
+  candidates: {
+    type: [String]
+  }
 })
 
 module.exports = Mongoose.model('jobs', JobSchema)
