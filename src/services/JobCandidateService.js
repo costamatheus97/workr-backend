@@ -13,16 +13,19 @@ class CreateJobService {
     const isConnected = baseInterface.isConnected();
 
     if(isConnected){
-      const currentJob = await context.findOne({ _id: jobId })
+      let currentJob
+      
+      try {
+        currentJob = await context.findOne({ _id: jobId })
+      } catch (error) {
+        throw new Error('Job not found in database')
+      }
+
       const candidates = currentJob.candidates
       const isCandidated = candidates.filter(candidate => candidate === userId)
 
       if(isCandidated.length > 0) {
-        throw new Error('You already candidated for this job')
-      }
-
-      if(!currentJob) {
-        throw new Error('The requested job is not available anymore')
+        throw new Error('You already candidated for this job')  
       }
 
       const updatedCandidates = [...candidates, userId]

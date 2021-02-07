@@ -79,7 +79,6 @@ router.put('/:id', async (req, res, next) => {
 
   if(isConnected) {
     try {
-
       await jobCandidateService.execute(jobId, currentUserId)
     
       res.status(200).send()
