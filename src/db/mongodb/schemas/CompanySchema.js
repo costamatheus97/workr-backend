@@ -1,4 +1,4 @@
-const Mongoose = require('mongoose')
+const Mongoose = require('mongoose');
 
 const CompanySchema = new Mongoose.Schema({
   email: {
@@ -47,6 +47,10 @@ const CompanySchema = new Mongoose.Schema({
   field: {
     type: String,
   },
+  company_id: {
+    type: String,
+    required: true,
+  },
   is_company: {
     type: Boolean,
     required: true,
@@ -68,6 +72,6 @@ const CompanySchema = new Mongoose.Schema({
   updated_at: {
     type: Date,
   },
-})
+});
 
-module.exports = Mongoose.model('company', CompanySchema)
+module.exports = Mongoose.model('company', CompanySchema);

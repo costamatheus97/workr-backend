@@ -2,58 +2,52 @@ const express = require('express');
 
 const router = express.Router();
 
-const CreateUserService = require('../services/CreateUserService')
-const UpdateUserService = require('../services/UpdateUserService')
-const ContextInterface = require('../db/base/ContextInterface')
-const UsersRepository = require('../db/mongodb/repositories/UsersRepository')
-const UserSchema = require('../db/mongodb/schemas/UserSchema')
-const Base = require('../db/base/MongoBase')
+const CreateUserService = require('../services/CreateUserService');
+const UpdateUserService = require('../services/UpdateUserService');
+const ContextInterface = require('../db/base/ContextInterface');
+const UsersRepository = require('../db/mongodb/repositories/UsersRepository');
+const UserSchema = require('../db/mongodb/schemas/UserSchema');
+const Base = require('../db/base/MongoBase');
 
-const context = new ContextInterface(new UsersRepository(UserSchema))
+const context = new ContextInterface(new UsersRepository(UserSchema));
 
-const ensureAuthenticated = require('../middlewares/EnsureAuthenticated')
+const ensureAuthenticated = require('../middlewares/EnsureAuthenticated');
 
 router.get('/', ensureAuthenticated, async (req, res, next) => {
   const connection = Base.connect();
-  const baseInterface = new Base(connection)
-  const isConnected = await baseInterface.isConnected(connection)
+  const baseInterface = new Base(connection);
+  const isConnected = await baseInterface.isConnected(connection);
 
-  if(isConnected) {
+  if (isConnected) {
     try {
-      const users = await context.read()
+      const users = await context.read();
 
-      users.forEach(user => {
-        const newUser = ({...user}._doc)
-
-        delete newUser.hash
-      })
-    
       res.json(users);
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 });
 
 router.post('/', async (req, res, next) => {
-  const createUserService = new CreateUserService()
+  const createUserService = new CreateUserService();
   try {
     const newUser = await createUserService.execute(req.body);
 
     res.json(newUser);
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
-router.put('/:id', ensureAuthenticated, async (req, res, next) => {
-  const updateUserService = new UpdateUserService()
+router.put('/', ensureAuthenticated, async (req, res, next) => {
+  const updateUserService = new UpdateUserService();
   try {
-    const updatedUser = await updateUserService.execute(req.body, req.params.id);
+    const updatedUser = await updateUserService.execute(req.body, req.user.id);
 
     res.json(updatedUser).status(200);
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 

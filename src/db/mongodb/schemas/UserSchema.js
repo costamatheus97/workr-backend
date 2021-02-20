@@ -1,4 +1,4 @@
-const Mongoose = require('mongoose')
+const Mongoose = require('mongoose');
 
 const UserSchema = new Mongoose.Schema({
   email: {
@@ -9,11 +9,7 @@ const UserSchema = new Mongoose.Schema({
     type: String,
     required: true,
   },
-  first_name: {
-    type: String,
-    required: true,
-  },
-  last_name: {
+  full_name: {
     type: String,
     required: true,
   },
@@ -49,7 +45,7 @@ const UserSchema = new Mongoose.Schema({
           start_date: {
             type: Date,
           },
-          end_date: { 
+          end_date: {
             type: String || Date,
           },
           description: {
@@ -113,6 +109,6 @@ const UserSchema = new Mongoose.Schema({
   updated_at: {
     type: Date,
   },
-})
+});
 
-module.exports = Mongoose.model('user', UserSchema)
+module.exports = Mongoose.model('user', UserSchema);

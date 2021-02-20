@@ -9,9 +9,11 @@ class ContextInterface extends DatabaseInterface {
   isConnected() {
     return this._database.isConnected();
   }
+
   connect() {
-    return this._database.connect()
+    return this._database.connect();
   }
+
   create(item) {
     return this._database.create(item);
   }
@@ -27,7 +29,7 @@ class ContextInterface extends DatabaseInterface {
   update(id, item) {
     return this._database.update(id, item);
   }
-  
+
   delete(id) {
     return this._database.delete(id);
   }

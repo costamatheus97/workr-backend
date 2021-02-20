@@ -1,30 +1,30 @@
-const { verify } = require('jsonwebtoken')
+const { verify } = require('jsonwebtoken');
 
-const authConfig = require('../config/auth')
+const authConfig = require('../config/auth');
 
 function ensureAuthenticated(req, res, next) {
   const authHeader = req.headers.authorization;
   const { secret } = authConfig.jwt;
 
-  if(!authHeader) {
-    throw new Error('User not authenticated in the application')
+  if (!authHeader) {
+    throw new Error('User not authenticated in the application');
   }
 
-  const [, token] = authHeader.split(' ')
+  const [, token] = authHeader.split(' ');
 
   try {
-    const decoded = verify(token, secret)
+    const decoded = verify(token, secret);
 
     const { sub } = decoded;
 
     req.user = {
       id: sub
-    }
-    
-    return next()
+    };
+
+    return next();
   } catch (error) {
-    throw new Error('Invalid JWT token')
+    throw new Error('Invalid JWT token');
   }
 }
 
-module.exports = ensureAuthenticated
+module.exports = ensureAuthenticated;

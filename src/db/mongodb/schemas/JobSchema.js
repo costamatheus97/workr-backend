@@ -1,4 +1,4 @@
-const Mongoose = require('mongoose')
+const Mongoose = require('mongoose');
 
 const JobSchema = new Mongoose.Schema({
   company_id: {
@@ -44,21 +44,13 @@ const JobSchema = new Mongoose.Schema({
     type: String,
     required: true,
   },
-  requirements: [
-    {
-      tech_name: {
-        type: String,
-        required: true,
-      },
-      experience: {
-        type: String,
-        required: true,
-      }
-    }
-  ],
+  requirements: {
+    type: String,
+    required: true,
+  },
   candidates: {
     type: [String]
   }
-})
+});
 
-module.exports = Mongoose.model('jobs', JobSchema)
+module.exports = Mongoose.model('jobs', JobSchema);
