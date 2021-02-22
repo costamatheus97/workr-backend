@@ -13,7 +13,7 @@ class Users extends DatabaseInterface {
   }
 
   async findOne(item = {}) {
-    const result = await this.collection.findOne(item);
+    const result = await this.collection.findOne(item).select('-hash');
 
     return result;
   }

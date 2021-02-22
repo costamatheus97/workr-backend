@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const JobCandidateService = require('../services/JobCandidateService');
+const RemoveCandidateService = require('../services/RemoveCandidateService');
 const CreateJobService = require('../services/CreateJobService');
 const ContextInterface = require('../db/base/ContextInterface');
 const JobsRepository = require('../db/mongodb/repositories/JobsRepository');
@@ -32,6 +33,23 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
+  const connection = Base.connect();
+  const baseInterface = new Base(connection);
+  const isConnected = await baseInterface.isConnected(connection);
+
+  if (isConnected) {
+    try {
+      const { id } = req.params;
+      const jobs = await context.findOne({ _id: id });
+
+      res.json(jobs);
+    } catch (error) {
+      next(error);
+    }
+  }
+});
+
+router.get('/company/:id', async (req, res, next) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -87,6 +105,27 @@ router.delete('/:id', async (req, res, next) => {
 });
 
 router.put('/:id', async (req, res, next) => {
+  const connection = Base.connect();
+  const baseInterface = new Base(connection);
+  const isConnected = await baseInterface.isConnected(connection);
+
+  const removeCandidateService = new RemoveCandidateService();
+
+  const jobId = req.params.id;
+  const currentUserId = req.user.id;
+
+  if (isConnected) {
+    try {
+      await removeCandidateService.execute(jobId, currentUserId, req.body);
+
+      res.status(200).send();
+    } catch (error) {
+      next(error);
+    }
+  }
+});
+
+router.put('/candidate/:id', async (req, res, next) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);

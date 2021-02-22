@@ -29,6 +29,23 @@ router.get('/', ensureAuthenticated, async (req, res, next) => {
   }
 });
 
+router.get('/:id', ensureAuthenticated, async (req, res, next) => {
+  const connection = Base.connect();
+  const baseInterface = new Base(connection);
+  const isConnected = await baseInterface.isConnected(connection);
+
+  if (isConnected) {
+    try {
+      const { id } = req.params;
+      const users = await context.findOne({ _id: id });
+
+      res.json(users);
+    } catch (error) {
+      next(error);
+    }
+  }
+});
+
 router.post('/', async (req, res, next) => {
   const createUserService = new CreateUserService();
   try {
