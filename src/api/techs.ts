@@ -1,6 +1,7 @@
-const express = require('express');
+import { Router } from 'express'
+import { Request, Response, NextFunction } from 'express'
 
-const router = express.Router();
+const router = Router();
 
 const CreateTechService = require('../services/CreateTechService')
 
@@ -11,11 +12,11 @@ const Base = require('../db/base/MongoBase')
 
 const context = new ContextInterface(new TechsRepository(TechSchema))
 
-const ensureAuthenticated = require('../middlewares/EnsureAuthenticated')
+import ensureAuthenticated from '../middlewares/EnsureAuthenticated';
 
 router.use(ensureAuthenticated)
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection)
   const isConnected = await baseInterface.isConnected(connection)
@@ -23,7 +24,7 @@ router.get('/', async (req, res, next) => {
   if(isConnected) {
     try {
       const techs = await context.read()
-    
+
       res.json(techs);
     } catch (error) {
       next(error)
@@ -31,7 +32,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   const techService = new CreateTechService()
 
   try {
@@ -43,4 +44,4 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

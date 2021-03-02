@@ -1,6 +1,5 @@
-const express = require('express');
-
-const router = express.Router();
+import { Router } from 'express'
+import { Request, Response, NextFunction } from 'express'
 
 const CreateCompanyService = require('../services/CreateCompanyService');
 const UpdateCompanyService = require('../services/UpdateCompanyService');
@@ -9,11 +8,13 @@ const CompaniesRepository = require('../db/mongodb/repositories/CompaniesReposit
 const CompanySchema = require('../db/mongodb/schemas/CompanySchema');
 const Base = require('../db/base/MongoBase');
 
+const router = Router();
+
 const context = new ContextInterface(new CompaniesRepository(CompanySchema));
 
-const ensureAuthenticated = require('../middlewares/EnsureAuthenticated');
+import ensureAuthenticated from '../middlewares/EnsureAuthenticated';
 
-router.get('/', ensureAuthenticated, async (req, res, next) => {
+router.get('/', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -29,7 +30,7 @@ router.get('/', ensureAuthenticated, async (req, res, next) => {
   }
 });
 
-router.get('/:id', ensureAuthenticated, async (req, res, next) => {
+router.get('/:id', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -46,7 +47,7 @@ router.get('/:id', ensureAuthenticated, async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   const createCompanyService = new CreateCompanyService();
   try {
     await createCompanyService.execute(req.body);
@@ -57,7 +58,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/', ensureAuthenticated, async (req, res, next) => {
+router.put('/', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
   const updateCompanyService = new UpdateCompanyService();
   try {
     const updatedCompany = await updateCompanyService.execute(req.body, req.user.id);
@@ -68,4 +69,4 @@ router.put('/', ensureAuthenticated, async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

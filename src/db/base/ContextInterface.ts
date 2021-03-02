@@ -1,7 +1,7 @@
-const DatabaseInterface = require('./DatabaseInterface');
+import DatabaseInterface from './DatabaseInterface'
 
 class ContextInterface extends DatabaseInterface {
-  constructor(database) {
+  constructor(database: Object) {
     super();
     this._database = database;
   }
@@ -35,4 +35,4 @@ class ContextInterface extends DatabaseInterface {
   }
 }
 
-module.exports = ContextInterface;
+export default ContextInterface;

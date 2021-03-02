@@ -91,6 +91,28 @@ const UserSchema = new Mongoose.Schema({
       ]
     }
   ],
+  candidated_jobs: [
+    {
+      job_id: {
+        type: String,
+      },
+      status: {
+        type: String,
+      },
+      title: {
+        type: String,
+      },
+      company: {
+        type: String,
+      },
+      pay_range: {
+        type: String,
+      },
+      level: {
+        type: String,
+      }
+    }
+  ],
   is_company: {
     type: Boolean,
     required: true,

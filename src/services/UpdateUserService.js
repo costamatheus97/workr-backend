@@ -19,7 +19,7 @@ class CreateUserService {
       }
 
       return context.update({ _id: id }, {
-        $set: { first_name: 'teste' }
+        $set: payload
       });
     }
   }

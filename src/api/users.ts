@@ -1,6 +1,7 @@
-const express = require('express');
+import { Router } from 'express'
+import { Request, Response, NextFunction } from 'express'
 
-const router = express.Router();
+const router = Router();
 
 const CreateUserService = require('../services/CreateUserService');
 const UpdateUserService = require('../services/UpdateUserService');
@@ -11,9 +12,9 @@ const Base = require('../db/base/MongoBase');
 
 const context = new ContextInterface(new UsersRepository(UserSchema));
 
-const ensureAuthenticated = require('../middlewares/EnsureAuthenticated');
+import ensureAuthenticated from '../middlewares/EnsureAuthenticated';
 
-router.get('/', ensureAuthenticated, async (req, res, next) => {
+router.get('/', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -29,7 +30,7 @@ router.get('/', ensureAuthenticated, async (req, res, next) => {
   }
 });
 
-router.get('/:id', ensureAuthenticated, async (req, res, next) => {
+router.get('/:id', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -46,7 +47,7 @@ router.get('/:id', ensureAuthenticated, async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   const createUserService = new CreateUserService();
   try {
     const newUser = await createUserService.execute(req.body);
@@ -57,9 +58,10 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/', ensureAuthenticated, async (req, res, next) => {
+router.put('/', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
   const updateUserService = new UpdateUserService();
   try {
+    console.log(req.body);
     const updatedUser = await updateUserService.execute(req.body, req.user.id);
 
     res.json(updatedUser).status(200);
@@ -68,4 +70,4 @@ router.put('/', ensureAuthenticated, async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

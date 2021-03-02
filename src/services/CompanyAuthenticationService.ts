@@ -1,19 +1,30 @@
 const { compare } = require('bcryptjs');
 const { sign } = require('jsonwebtoken');
 
-const ContextInterface = require('../db/base/ContextInterface');
+import User from '../models/User'
+
 const CompaniesRepository = require('../db/mongodb/repositories/CompaniesRepository');
 const CompanySchema = require('../db/mongodb/schemas/CompanySchema');
 const Base = require('../db/base/MongoBase');
-const authConfig = require('../config/auth');
+import authConfig from '../config/auth'
+import ContextInterface from '../db/base/ContextInterface'
+
+
+interface RequestDTO {
+  email: string;
+  hash: string;
+}
+
+interface Auth {
+  user: User,
+  token: string
+}
 
 class CompanyAuthenticationService {
-  async execute(payload) {
+  public async execute({ email, hash }: RequestDTO): Promise<Auth> {
     const connection = Base.connect();
     const baseInterface = new Base(connection);
     const context = new ContextInterface(new CompaniesRepository(CompanySchema));
-
-    const { email, hash } = payload;
 
     const user = await context.findOne({ email });
 
@@ -41,4 +52,4 @@ class CompanyAuthenticationService {
   }
 }
 
-module.exports = CompanyAuthenticationService;
+export default CompanyAuthenticationService;

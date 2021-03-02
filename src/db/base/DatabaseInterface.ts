@@ -26,4 +26,4 @@ class DatabaseInterface {
   }
 }
 
-module.exports = DatabaseInterface;
+export default DatabaseInterface

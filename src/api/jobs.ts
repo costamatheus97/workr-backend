@@ -1,6 +1,7 @@
-const express = require('express');
+import { Router } from 'express'
+import { Request, Response, NextFunction } from 'express'
 
-const router = express.Router();
+const router = Router();
 
 const JobCandidateService = require('../services/JobCandidateService');
 const RemoveCandidateService = require('../services/RemoveCandidateService');
@@ -12,11 +13,11 @@ const Base = require('../db/base/MongoBase');
 
 const context = new ContextInterface(new JobsRepository(JobSchema));
 
-const ensureAuthenticated = require('../middlewares/EnsureAuthenticated');
+import ensureAuthenticated from '../middlewares/EnsureAuthenticated';
 
 router.use(ensureAuthenticated);
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -32,7 +33,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -49,7 +50,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.get('/company/:id', async (req, res, next) => {
+router.get('/company/:id', async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -66,7 +67,24 @@ router.get('/company/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+// router.get('/company/:id', async (req, res, next) => {
+//   const connection = Base.connect();
+//   const baseInterface = new Base(connection);
+//   const isConnected = await baseInterface.isConnected(connection);
+
+//   if (isConnected) {
+//     try {
+//       const { id } = req.params;
+//       const jobs = await context.read({ company_id: id });
+
+//       res.json(jobs);
+//     } catch (error) {
+//       next(error);
+//     }
+//   }
+// });
+
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.user;
 
   const jobService = new CreateJobService();
@@ -79,7 +97,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -104,7 +122,7 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -125,7 +143,7 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/candidate/:id', async (req, res, next) => {
+router.put('/candidate/:id', async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
   const baseInterface = new Base(connection);
   const isConnected = await baseInterface.isConnected(connection);
@@ -146,4 +164,4 @@ router.put('/candidate/:id', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

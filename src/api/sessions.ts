@@ -1,11 +1,12 @@
-const express = require('express');
+import { Router } from 'express'
+import { Request, Response, NextFunction } from 'express'
 
-const router = express.Router();
+const router = Router();
 
 const UserAuthenticationService = require('../services/UserAuthenticationService');
 const CompanyAuthenticationService = require('../services/CompanyAuthenticationService');
 
-router.post('/users', async (req, res, next) => {
+router.post('/users', async (req: Request, res: Response, next: NextFunction) => {
   const userAuthenticationService_ = new UserAuthenticationService();
 
   try {
@@ -21,7 +22,7 @@ router.post('/users', async (req, res, next) => {
   }
 });
 
-router.post('/companies', async (req, res, next) => {
+router.post('/companies', async (req: Request, res: Response, next: NextFunction) => {
   const companyAuthenticationService_ = new CompanyAuthenticationService();
 
   try {
@@ -37,4 +38,4 @@ router.post('/companies', async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;
