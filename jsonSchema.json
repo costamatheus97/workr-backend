@@ -9,8 +9,7 @@
         "profile_picture": "img.jpg",
         "is_company": false,
         "is_premium": false,
-        "first_name": "Robson",
-        "last_name": "silva",
+        "full_name": "Robson",
         "country": "Brasil",
         "city": "Santos",
         "state": "São Paulo",
@@ -85,7 +84,7 @@
         "field": "Tecnologia",
         "folowers": 10
     },
-    
+
     "jobs": {
         "id": "$fe2#4",
         "title": "Engenheiro de software",

@@ -1,55 +1,47 @@
 import { Router } from 'express'
 import { Request, Response, NextFunction } from 'express'
 
-const CreateCompanyService = require('../services/CreateCompanyService');
-const UpdateCompanyService = require('../services/UpdateCompanyService');
-const ContextInterface = require('../db/base/ContextInterface');
-const CompaniesRepository = require('../db/mongodb/repositories/CompaniesRepository');
-const CompanySchema = require('../db/mongodb/schemas/CompanySchema');
-const Base = require('../db/base/MongoBase');
+import CreateCompanyService from '../services/CreateCompanyService'
+import UpdateCompanyService from '../services/UpdateCompanyService'
+
+import { getRepository } from 'typeorm'
+import Company from '../models/Company'
 
 const router = Router();
-
-const context = new ContextInterface(new CompaniesRepository(CompanySchema));
 
 import ensureAuthenticated from '../middlewares/EnsureAuthenticated';
 
 router.get('/', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
-  const connection = Base.connect();
-  const baseInterface = new Base(connection);
-  const isConnected = await baseInterface.isConnected(connection);
 
-  if (isConnected) {
     try {
-      const companies = await context.read();
+      const companyRepository = getRepository(Company)
+      const companies = await companyRepository.find();
 
       res.json(companies);
     } catch (error) {
       next(error);
     }
-  }
+
 });
 
 router.get('/:id', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
-  const connection = Base.connect();
-  const baseInterface = new Base(connection);
-  const isConnected = await baseInterface.isConnected(connection);
-
-  if (isConnected) {
     try {
       const { id } = req.params;
-      const company = await context.findOne({ _id: id });
+      const companyRepository = getRepository(Company)
+
+      const company = await companyRepository.findOne({
+        where: { id }
+      })
 
       res.json(company);
     } catch (error) {
       next(error);
     }
-  }
 });
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
-  const createCompanyService = new CreateCompanyService();
   try {
+    const createCompanyService = new CreateCompanyService();
     await createCompanyService.execute(req.body);
 
     res.json(req.body);
@@ -59,9 +51,13 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.put('/', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
-  const updateCompanyService = new UpdateCompanyService();
   try {
-    const updatedCompany = await updateCompanyService.execute(req.body, req.user.id);
+    const updateCompanyService = new UpdateCompanyService();
+
+    const payload = req.body;
+    payload.id = req.user.id;
+
+    const updatedCompany = await updateCompanyService.execute(payload);
 
     res.json(updatedCompany).status(200);
   } catch (error) {

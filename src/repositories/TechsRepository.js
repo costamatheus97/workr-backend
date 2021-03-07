@@ -1,4 +1,4 @@
-const DatabaseInterface = require('../../base/DatabaseInterface')
+const DatabaseInterface = require('../db/base/DatabaseInterface')
 
 class Techs extends DatabaseInterface{
   constructor(collection) {

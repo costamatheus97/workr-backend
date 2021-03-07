@@ -3,39 +3,33 @@ import { Request, Response, NextFunction } from 'express'
 
 const router = Router();
 
-const UserAuthenticationService = require('../services/UserAuthenticationService');
-const CompanyAuthenticationService = require('../services/CompanyAuthenticationService');
+import UserAuthenticationService from '../services/UserAuthenticationService'
+import CompanyAuthenticationService from '../services/CompanyAuthenticationService'
 
-router.post('/users', async (req: Request, res: Response, next: NextFunction) => {
-  const userAuthenticationService_ = new UserAuthenticationService();
+router.post('/users', async (req, response) => {
 
-  try {
-    const { user, token } = await userAuthenticationService_.execute(req.body);
-    const newUser = ({ ...user }._doc);
+    const { email, hash } = req.body;
 
-    delete newUser.hash;
-    delete newUser.phone;
+    const authenticateUser = new UserAuthenticationService();
 
-    res.json({ user, token });
-  } catch (error) {
-    next(error);
-  }
+    const { user, token } = await authenticateUser.execute({ email, hash });
+
+    delete user.hash;
+
+    return response.json({ user, token })
 });
 
-router.post('/companies', async (req: Request, res: Response, next: NextFunction) => {
-  const companyAuthenticationService_ = new CompanyAuthenticationService();
+router.post('/companies', async (req, response) => {
 
-  try {
-    const { user, token } = await companyAuthenticationService_.execute(req.body);
-    const newCompany = ({ ...user }._doc);
+  const { email, hash } = req.body;
 
-    delete newCompany.hash;
-    delete newCompany.phone;
+  const authenticateCompany = new CompanyAuthenticationService();
 
-    res.json({ user, token });
-  } catch (error) {
-    next(error);
-  }
+  const { user, token } = await authenticateCompany.execute({ email, hash });
+
+  delete user.hash;
+
+  return response.json({ user, token })
 });
 
 export default router;

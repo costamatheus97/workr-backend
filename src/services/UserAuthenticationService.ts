@@ -3,7 +3,7 @@ const { sign } = require('jsonwebtoken');
 
 import { getRepository } from 'typeorm'
 
-import Company from '../models/Company'
+import User from '../models/User'
 
 import authConfig from '../config/auth'
 
@@ -13,15 +13,15 @@ interface RequestDTO {
 }
 
 interface Auth {
-  user: Company,
+  user: User,
   token: string
 }
 
-class CompanyAuthenticationService {
+class UserAuthenticationService {
   public async execute({ email, hash }: RequestDTO): Promise<Auth> {
-    const companyRepository = getRepository(Company)
+    const userRepository = getRepository(User)
 
-    const user = await companyRepository.findOne({ email });
+    const user = await userRepository.findOne({ email });
 
     if (!user) {
       throw new Error('Incorrect email/password combination');
@@ -47,4 +47,4 @@ class CompanyAuthenticationService {
   }
 }
 
-export default CompanyAuthenticationService;
+export default UserAuthenticationService;

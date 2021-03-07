@@ -24,6 +24,18 @@ class User {
   phone: string;
 
   @Column()
+  birthdate: string;
+
+  @Column()
+  description: string;
+
+  @Column()
+  interest_location: [string];
+
+  @Column()
+  skills: [string];
+
+  @Column()
   profile_picture: string;
 
   @Column()
@@ -39,13 +51,13 @@ class User {
   cep: string;
 
   @Column()
-  is_company: string;
+  is_company: boolean;
 
   @Column()
-  is_premium: string;
+  is_premium: boolean;
 
   @Column()
-  is_verified: string;
+  is_verified: boolean;
 
   @CreateDateColumn()
   created_at: string;

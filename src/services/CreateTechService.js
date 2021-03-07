@@ -1,5 +1,5 @@
 const ContextInterface = require('../db/base/ContextInterface')
-const TechsRepository = require('../db/mongodb/repositories/JobsRepository')
+const TechsRepository = require('../repositories/TechsRepository')
 const TechSchema = require('../db/mongodb/schemas/TechSchema')
 const Base = require('../db/base/MongoBase')
 

@@ -3,48 +3,40 @@ import { Request, Response, NextFunction } from 'express'
 
 const router = Router();
 
-const CreateUserService = require('../services/CreateUserService');
-const UpdateUserService = require('../services/UpdateUserService');
-const ContextInterface = require('../db/base/ContextInterface');
-const UsersRepository = require('../db/mongodb/repositories/UsersRepository');
-const UserSchema = require('../db/mongodb/schemas/UserSchema');
-const Base = require('../db/base/MongoBase');
+import { getRepository } from 'typeorm'
+import User from '../models/User'
 
-const context = new ContextInterface(new UsersRepository(UserSchema));
+import CreateUserService from '../services/CreateUserService'
+import UpdateUserProfileService from '../services/UpdateUserProfileService'
+import UpdateUserAddressService from '../services/UpdateUserAddressService'
 
 import ensureAuthenticated from '../middlewares/EnsureAuthenticated';
 
 router.get('/', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
-  const connection = Base.connect();
-  const baseInterface = new Base(connection);
-  const isConnected = await baseInterface.isConnected(connection);
-
-  if (isConnected) {
     try {
-      const users = await context.read();
+      const usersRepository = getRepository(User)
+      const users = await usersRepository.find()
 
       res.json(users);
     } catch (error) {
       next(error);
     }
-  }
+
 });
 
 router.get('/:id', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
-  const connection = Base.connect();
-  const baseInterface = new Base(connection);
-  const isConnected = await baseInterface.isConnected(connection);
-
-  if (isConnected) {
     try {
+      const usersRepository = getRepository(User)
+
       const { id } = req.params;
-      const users = await context.findOne({ _id: id });
+      const users = await usersRepository.findOne({
+        where: { id }
+      })
 
       res.json(users);
     } catch (error) {
       next(error);
     }
-  }
 });
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
@@ -58,16 +50,46 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.put('/', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
-  const updateUserService = new UpdateUserService();
+router.put('/profile', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
+  const updateUserProfileService = new UpdateUserProfileService();
   try {
-    console.log(req.body);
-    const updatedUser = await updateUserService.execute(req.body, req.user.id);
+    const payload = req.body;
+    payload.id = req.user.id;
+
+    const updatedUser = await updateUserProfileService.execute(payload);
 
     res.json(updatedUser).status(200);
   } catch (error) {
     next(error);
   }
+});
+
+router.put('/address', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
+  const updateUserAddressService = new UpdateUserAddressService();
+  try {
+    const payload = req.body;
+    payload.id = req.user.id;
+
+    const updatedUser = await updateUserAddressService.execute(payload);
+
+    res.json(updatedUser).status(200);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put('/resume', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
+  // const updateUserResumeService = new UpdateUserResumeService();
+  // try {
+  //   const payload = req.body;
+  //   payload.id = req.user.id;
+
+  //   const updatedUser = await updateUserResumeService.execute(payload);
+
+  //   res.json(updatedUser).status(200);
+  // } catch (error) {
+  //   next(error);
+  // }
 });
 
 export default router;

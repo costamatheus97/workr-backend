@@ -6,15 +6,13 @@ const router = Router();
 const CreateTechService = require('../services/CreateTechService')
 
 const ContextInterface = require('../db/base/ContextInterface')
-const TechsRepository = require('../db/mongodb/repositories/TechsRepository')
+const TechsRepository = require('../repositories/TechsRepository')
 const TechSchema = require('../db/mongodb/schemas/TechSchema')
 const Base = require('../db/base/MongoBase')
 
 const context = new ContextInterface(new TechsRepository(TechSchema))
 
 import ensureAuthenticated from '../middlewares/EnsureAuthenticated';
-
-router.use(ensureAuthenticated)
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   const connection = Base.connect();
@@ -32,7 +30,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', ensureAuthenticated, async (req: Request, res: Response, next: NextFunction) => {
   const techService = new CreateTechService()
 
   try {

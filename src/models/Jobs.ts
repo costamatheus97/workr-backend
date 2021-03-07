@@ -29,6 +29,9 @@ class Job {
   @Column()
   country: string;
 
+  @Column()
+  company_id: string;
+
   @CreateDateColumn()
   created_at: string;
 
