@@ -4,7 +4,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+
+import Job from './Jobs'
 
 @Entity('users')
 class User {
@@ -29,11 +33,11 @@ class User {
   @Column()
   description: string;
 
-  @Column()
-  interest_location: [string];
+  @Column({ type: "text", array: true})
+  interest_location: string[];
 
-  @Column()
-  skills: [string];
+  @Column({ type: "text", array: true})
+  skills: string[];
 
   @Column()
   profile_picture: string;
@@ -58,6 +62,10 @@ class User {
 
   @Column()
   is_verified: boolean;
+
+  @ManyToMany(() => Job)
+  @JoinTable({ name: "job_candidate" })
+  job: Job
 
   @CreateDateColumn()
   created_at: string;

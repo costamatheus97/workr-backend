@@ -4,7 +4,11 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+
+import User from './User'
 
 @Entity('jobs')
 class Job {
@@ -31,6 +35,10 @@ class Job {
 
   @Column()
   company_id: string;
+
+  @ManyToMany(() => User)
+  @JoinTable({ name: "job_candidate" })
+  user: User
 
   @CreateDateColumn()
   created_at: string;
