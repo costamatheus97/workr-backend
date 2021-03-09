@@ -20,14 +20,6 @@ Development utilities:
 * [supertest](https://www.npmjs.com/package/supertest)
   * HTTP assertions made easy via superagent.
 
-## Run MongoDB
-
-docker run --name mongoworkr -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=workrboard -e MONGO_INITDB_ROOT_PASSWORD=macarraomolhoabolonhesa -d mongo:4
-
-docker run --name mongoclient -p 3000:3000 --link mongoworkr:mongoworkr -d mongoclient/mongoclient
-
-docker exec -it mongoworkr mongo --host localhost -u workrboard -p macarraomolhoabolonhesa --authenticationDatabase admin --eval "db.getSiblingDB('workr').createUser({user: 'workrboard', pwd: 'sorvetedecreme', roles: [{role: 'readWrite', db: 'workr'}]})"
-
 ## Setup
 
 ```
